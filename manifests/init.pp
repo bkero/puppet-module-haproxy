@@ -65,6 +65,7 @@ class haproxy ($enable=true,
                 $global_options=[],
                 $default_options=[]
     ) {
+    include puppet-concat
 
     if ($autoupdate == True) {
         $pkgstatus = 'latest'
@@ -87,5 +88,21 @@ class haproxy ($enable=true,
             hasrestart => true,
             hasstatus  => true,
             require    => Package['haproxy'],
+    }
 
+    concat{$configfile:
+        owner => 'root',
+        group => 'root',
+        mode  => '0644',
+    }
+
+    concat::fragment{
+        'global':
+            target  => $configfile,
+            content => template('haproxy/global.cfg.erb'),
+            order   => 01;
+        'defaults':
+            target  => $configfile,
+            content => template('haproxy/defaults.cfg.erb');
+    }   
 }
