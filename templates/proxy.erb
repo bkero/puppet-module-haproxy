@@ -1,0 +1,15 @@
+<% if type == 'listen' %>
+    <%= type %> <%= namevar %> <%= address %>:<%= port %>
+    <% options.each_pair do |option, param| %>
+        option <%= option %> <%= param %>
+    <% end %>
+    <% servers.each_pair do |server param| %>
+        server <%= server %> <%= param %>
+    <% end %>
+        balance <%= balance %>
+<% end %>
+
+<% if type == 'backend' %>
+<% end %>
+<% if type == 'frontend' %>
+<% end %>
